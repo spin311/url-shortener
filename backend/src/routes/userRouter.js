@@ -5,7 +5,7 @@ const {validateCreateUser, validateUpdateUser} = require('../middleware/validate
 
 const router = express.Router();
 
-router.post('/create',validateCreateUser, isLoggedIn, isAdmin, userController.createUser);
-router.put('/update/:id',validateUpdateUser, isLoggedIn, isAdmin, userController.updateUser);
+router.post('/',validateCreateUser,  userController.createUser);
+router.put('/:id',validateUpdateUser, isLoggedIn, isAdmin, userController.updateUser);
 
 module.exports = router;

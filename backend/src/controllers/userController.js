@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const userModel = require('../models/userModel');
 const SALT_ROUNDS = 10;
+const createError = require('http-errors');
 
 async function createUser(req, res, next) {
     try {
@@ -8,12 +9,9 @@ async function createUser(req, res, next) {
         const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
         const user = await userModel.createUser(username, hashedPassword, organization_id, user_type);
         if (!user || !user.affectedRows) {
-            return res.status(500).json({
-                status: 'error',
-                message: 'Could not register user'
-            });
+            return next(createError(500, 'Could not create user'));
         }
-        res.json({
+        res.status(201).json({
             status: 'success',
             message: 'User created'
         });
@@ -31,10 +29,7 @@ async function updateUser(req, res, next) {
         }
         const updatedUser = await userModel.updateUser(id, fields);
         if (!updatedUser || !updatedUser.affectedRows) {
-            return res.status(500).json({
-                status: 'error',
-                message: 'Could not update user'
-            });
+            return next(createError(500, 'Could not update user'));
         }
         res.json({
             status: 'success',
