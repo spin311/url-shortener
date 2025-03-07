@@ -2,7 +2,6 @@ const authModel = require('../models/authModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.SECRET_KEY;
-const SALT_ROUNDS = 10;
 
 
 async function login(req, res, next) {
@@ -42,31 +41,11 @@ async function login(req, res, next) {
     }
 }
 
-async function createUser(req, res, next) {
-    try {
-        const { username, password, organization_id, user_type } = req.body;
-        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-        const user = await authModel.createUser(username, hashedPassword, organization_id, user_type);
-        if (!user || !user.affectedRows) {
-            return res.status(500).json({
-                status: 'error',
-                message: 'Could not register user'
-            });
-        }
-        res.json({
-            status: 'success',
-            message: 'User created'
-        });
-    } catch (error) {
-        next(error);
-    }
 
-}
 
 async function logout(req, res, next) {
     try {
         const token = req.headers.authorization?.split(' ')[1];
-        const session = await authModel.getSession(token);
         const deleteSession = await authModel.deleteSession(token);
         if (!deleteSession || !deleteSession.affectedRows) {
             return res.status(500).json({
@@ -84,6 +63,5 @@ async function logout(req, res, next) {
 
 module.exports = {
     login,
-    logout,
-    createUser
+    logout
 }
