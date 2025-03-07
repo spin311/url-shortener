@@ -1,0 +1,39 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "description": "url-shortener",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "initDb": "node src/config/initDb.js",
+    "dropDb": "node src/config/dropDb.js",
+    "lint": "node_modules/.bin/eslint .",
+    "format": "node_modules/.bin/prettier --write .",
+    "migrateDb": "node src/config/migration.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spin311/url-shortener.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spin311/url-shortener/issues"
+  },
+  "homepage": "https://github.com/spin311/url-shortener#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mysql2": "^3.13.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.1.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3"
+  }
+}
