@@ -7,11 +7,10 @@ async function getSession(token) {
 }
 
 
-async function login(username, password) {
+async function login(username) {
     const query = `SELECT * FROM USERS WHERE username = ?`;
     const [rows] = await db.query(query, [username]);
-    const user = rows[0];
-    return rows;
+    return rows[0];
 }
 
 async function register(username, password) {
