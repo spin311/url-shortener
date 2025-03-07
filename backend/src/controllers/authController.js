@@ -55,7 +55,7 @@ async function createUser(req, res, next) {
         }
         res.json({
             status: 'success',
-            message: 'User registered'
+            message: 'User created'
         });
     } catch (error) {
         next(error);
@@ -65,7 +65,18 @@ async function createUser(req, res, next) {
 
 async function logout(req, res, next) {
     try {
-
+        const token = req.headers.authorization?.split(' ')[1];
+        const session = await authModel.getSession(token);
+        const deleteSession = await authModel.deleteSession(token);
+        if (!deleteSession || !deleteSession.affectedRows) {
+            return res.status(500).json({
+                status: 'error',
+                message: 'Could not logout'
+            });
+        }
+        res.json({
+            status: 'success',
+            message: 'Logged out'});
     } catch (e) {
         next(e)
     }
@@ -73,5 +84,6 @@ async function logout(req, res, next) {
 
 module.exports = {
     login,
+    logout,
     createUser
 }

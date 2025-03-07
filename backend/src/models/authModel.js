@@ -23,6 +23,12 @@ async function createSession(userId, token, expiresAt) {
     return result;
 }
 
+async function deleteSession(token) {
+    const query = `DELETE FROM SESSIONS WHERE session_token = ?`;
+    const [result] = await db.query(query, [token]);
+    return result;
+}
+
 async function createUser(username, password, organization_id, user_type="user") {
     const query = `INSERT INTO USERS (username, password, organization_id, user_type) VALUES (?, ?, ?, ?)`;
     const [result] = await db.query(query, [username, password, organization_id, user_type]);
@@ -62,6 +68,7 @@ async function updateUser(userId, fields) {
 
 module.exports = {
     getSession,
+    deleteSession,
     login,
     register,
     createSession,

@@ -9,19 +9,25 @@ function isAdmin(req, res, next) {
             message: 'Forbidden'
         });
     }
+    next();
 }
 
 async function isLoggedIn(req, res, next) {
     try {
         const token = req.headers.authorization?.split(' ')[1];
-        const decoded = jwt.verify(token, SECRET_KEY);
+        console.log(req.headers);
+        console.log(token);
         if (!token) {
             return res.status(401).json({
                 status: 'error',
                 message: 'Unauthorized'
             });
         }
+        const decoded = jwt.verify(token, SECRET_KEY);
+        console.log("decoded", decoded);
         const session = await authModel.getSession(token);
+        console.log("finished session");
+        console.log(session);
         if (!session) {
             return res.status(401).json({
                 status: 'error',
@@ -29,8 +35,10 @@ async function isLoggedIn(req, res, next) {
             });
         }
         req.user = decoded;
+        console.log("going next");
         next();
     } catch (e) {
+        console.log(e);
         return res.status(401).json({
             status: 'error',
             message: 'Unauthorized'
