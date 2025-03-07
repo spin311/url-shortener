@@ -1,5 +1,12 @@
 const db = require('../config/db');
 
+async function getSession(token) {
+    const query = `SELECT * FROM SESSIONS WHERE session_token = ? AND expires_at > NOW()`;
+    const [rows] = await  db.query(query, [token]);
+    return rows;
+}
+
+
 async function login(username, password) {
     const query = `SELECT * FROM USERS WHERE username = ?`;
     const [rows] = await db.query(query, [username]);
@@ -17,4 +24,9 @@ async function createSession(userId, token, expiresAt) {
     return result;
 }
 
-export default { login, register, createSession };
+module.exports = {
+    getSession,
+    login,
+    register,
+    createSession
+}

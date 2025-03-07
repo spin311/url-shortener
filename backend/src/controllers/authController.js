@@ -2,6 +2,7 @@ const authModel = require('../models/authModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.SECRET_KEY;
+const SALT_ROUNDS = 10;
 
 
 async function login(req, res, next) {
@@ -41,4 +42,36 @@ async function login(req, res, next) {
     }
 }
 
-export
+async function createUser(req, res, next) {
+    try {
+        const { username, password } = req.body;
+        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+        const user = await authModel.createUser(username, hashedPassword);
+        if (!user || !user.affectedRows) {
+            return res.status(500).json({
+                status: 'error',
+                message: 'Could not register user'
+            });
+        }
+        res.json({
+            status: 'success',
+            message: 'User registered'
+        });
+    } catch (error) {
+        next(error);
+    }
+
+}
+
+async function logout(req, res, next) {
+    try {
+
+    } catch (e) {
+        next(e)
+    }
+}
+
+module.exports = {
+    login,
+    createUser
+}
