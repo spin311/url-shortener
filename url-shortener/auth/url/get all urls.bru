@@ -1,0 +1,15 @@
+meta {
+  name: get all urls
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:5000/api/v1/urls
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwidXNlcm5hbWUiOiJhZG1pbiIsInVzZXJfdHlwZSI6ImFkbWluIiwib3JnYW5pemF0aW9uX2lkIjoxLCJpYXQiOjE3NDEzNTQwOTYsImV4cCI6MTc0MTM1NzY5Nn0.O5GqQ_Aqg8wtpT1adetLbU5SzO8Yn-dODotBUphJPJg
+}
