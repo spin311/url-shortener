@@ -26,9 +26,18 @@ async function getUrlsforCurrentOrganization(organizationId) {
     return rows;
 }
 
+async function extendUrl(urlId) {
+    const query = `UPDATE URLS
+                   SET expires_at = DATE_ADD(expires_at, INTERVAL 7 DAY)
+                   WHERE id = ?`;
+    const [rows] = await db.query(query, [urlId]);
+    return rows;
+}
+
 module.exports = {
     createUrl,
     deleteUrl,
     incrementClicks,
-    getUrlsforCurrentOrganization
+    getUrlsforCurrentOrganization,
+    extendUrl
 };

@@ -73,10 +73,27 @@ async function incrementClicks(req, res, next) {
     }
 }
 
+async function extendUrl(req, res, next) {
+    try {
+        const id = req.params.id;
+        const url = await urlModel.extendUrl(id);
+        if (!url) {
+            return next(createError(404, 'URL not found'));
+        }
+        res.status(200).json({
+            status: 'success',
+            data: url
+        });
+    } catch (e) {
+        next(e);
+    }
+}
+
 module.exports = {
     createUrl,
     deleteUrl,
     getUrlsByOrganizationId,
-    incrementClicks
+    incrementClicks,
+    extendUrl
 }
 
