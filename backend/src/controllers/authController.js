@@ -44,9 +44,9 @@ async function login(req, res, next) {
 
 async function createUser(req, res, next) {
     try {
-        const { username, password } = req.body;
+        const { username, password, organization_id, user_type } = req.body;
         const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-        const user = await authModel.createUser(username, hashedPassword);
+        const user = await authModel.createUser(username, hashedPassword, organization_id, user_type);
         if (!user || !user.affectedRows) {
             return res.status(500).json({
                 status: 'error',

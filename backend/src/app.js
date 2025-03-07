@@ -3,8 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const errorHandler = require('./middleware/errorHandler');
 const authRouter = require('./routes/authRouter');
-const userRouter = require('./routes/userRouter');
-const urlRouter = require('./routes/urlRouter');
+const api_namespace = process.env.API_NAMESPACE;
+// const userRouter = require('./routes/userRouter');
+// const urlRouter = require('./routes/urlRouter');
 
 const app = express();
 
@@ -17,13 +18,9 @@ app.use(cors({
 dotenv.config();
 app.use(express.json());
 
-app.use()
-const apiNamespace = process.env.API_NAMESPACE;
-app.use(`${apiNamespace}/auth`, authRouter);
-app.use(`${apiNamespace}/users`, userRouter);
-app.use(`${apiNamespace}/urls`, urlRouter);
-
+app.use(`${api_namespace}/auth`, authRouter);
+// app.use(`${apiNamespace}/users`, userRouter);
+// app.use(`${apiNamespace}/urls`, urlRouter);
 app.use(errorHandler);
-
 
 module.exports = app;
