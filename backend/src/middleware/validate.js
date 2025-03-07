@@ -12,6 +12,18 @@ function isAdmin(req, res, next) {
     next();
 }
 
+function canDeleteUrl(req, res, next) {
+    if (req.user.user_type !== 'admin' || req.user.organization_id !== req.params.id) {
+        return res.status(403).json({
+            status: 'error',
+            message: 'Forbidden'
+        });
+    }
+    next();
+
+
+}
+
 async function isLoggedIn(req, res, next) {
     try {
         const token = req.headers.authorization?.split(' ')[1];
@@ -41,5 +53,6 @@ async function isLoggedIn(req, res, next) {
 
 module.exports = {
     isAdmin,
-    isLoggedIn
+    isLoggedIn,
+    canDeleteUrl
 }
